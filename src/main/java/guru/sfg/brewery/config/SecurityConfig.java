@@ -1,6 +1,7 @@
 package guru.sfg.brewery.config;
 
 import guru.sfg.brewery.security.RestHeaderAuthFilter;
+import guru.sfg.brewery.security.RestUrlAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -17,6 +18,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    public RestUrlAuthFilter restUrlAuthFilter(AuthenticationManager authenticationManager){
+        RestUrlAuthFilter filter = new RestUrlAuthFilter(new AntPathRequestMatcher("/api/**"));
+        filter.setAuthenticationManager(authenticationManager);
+        return filter;
+    }
 
     public RestHeaderAuthFilter restHeaderAuthFilter(AuthenticationManager authenticationManager){
         RestHeaderAuthFilter filter = new RestHeaderAuthFilter(new AntPathRequestMatcher("/api/**"));
@@ -36,6 +43,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(restHeaderAuthFilter(authenticationManager()),
                 UsernamePasswordAuthenticationFilter.class)
                 .csrf().disable();
+
+        http.addFilterBefore(restUrlAuthFilter(authenticationManager()),
+                UsernamePasswordAuthenticationFilter.class);
 
         http.authorizeRequests(authorize -> {
                     authorize
