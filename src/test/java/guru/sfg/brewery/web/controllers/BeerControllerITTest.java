@@ -22,7 +22,7 @@ class BeerControllerITTest extends BaseIT {
 
     @Test
     void findBeersWithHttpBasic() throws Exception{
-        mockMvc.perform(get("/beers/find").with(httpBasic("mathan", "12345")))
+        mockMvc.perform(get("/beers/find").with(httpBasic("mathan", "password")))
                 .andExpect(status().isOk())
                 .andExpect(view().name("beers/findBeers"))
                 .andExpect(model().attributeExists("beer"));
