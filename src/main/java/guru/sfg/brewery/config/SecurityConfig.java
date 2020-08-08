@@ -64,7 +64,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().sameOrigin();
     }
 
-    @Override
+//SPRING DATA JPA WILL TACK CARE
+
+/*    @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .withUser("mathan")
@@ -78,7 +80,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                  withUser("scott")
                 .password("{bcrypt15}$2a$15$0OQCQ8aVX/7Be2iWKcEVDueAD4ieeazR83SMwGpNTGltfPuyYxVP6")
                 .roles("CUSTOMER");
-    }
+    }*/
 
    /* @Override
     @Bean
