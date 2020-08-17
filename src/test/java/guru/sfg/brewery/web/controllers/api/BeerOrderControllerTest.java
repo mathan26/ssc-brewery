@@ -198,7 +198,7 @@ class BeerOrderControllerTest extends BaseIT {
     @Transactional
     @WithUserDetails("spring")
     @Test
-    void pickUpOrderNotAdminUser() throws Exception {
+    void pickUpOrderAdminUser() throws Exception {
         BeerOrder beerOrder = stPeteCustomer.getBeerOrders().stream().findFirst().orElseThrow();
 
         mockMvc.perform(put(API_ROOT + stPeteCustomer.getId() + "/orders/" + beerOrder.getId() + "/pickup"))

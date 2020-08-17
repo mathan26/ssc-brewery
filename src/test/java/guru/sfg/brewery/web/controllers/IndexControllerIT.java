@@ -35,7 +35,7 @@ class IndexControllerIT extends BaseIT {
     BeerOrderService beerOrderService;
 
     @Test
-   public void testGetIndexSlash() throws Exception{
+    void testGetIndexSlash() throws Exception{
         mockMvc.perform(get("/" ))
                 .andExpect(status().isOk());
     }

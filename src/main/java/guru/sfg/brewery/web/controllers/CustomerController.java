@@ -53,7 +53,6 @@ public class CustomerController {
         return "customers/findCustomers";
     }
 
-
     @CustomerReadPermission
     @GetMapping
     public String processFindFormReturnMany(Customer customer, BindingResult result, Model model){
@@ -83,7 +82,6 @@ public class CustomerController {
         mav.addObject(customerRepository.findById(customerId).get());
         return mav;
     }
-
 
     @CustomerCreatePermission
     @GetMapping("/new")
