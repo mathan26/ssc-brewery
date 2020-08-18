@@ -1,5 +1,6 @@
 package guru.sfg.brewery.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -7,14 +8,19 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+@RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+
+    private final UserDetailsService userDetailsService;
 
     // needed for use with Spring Data JPA SPeL
     @Bean
@@ -56,7 +62,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                             .permitAll();
                 })
                 .httpBasic()
-                .and().csrf().ignoringAntMatchers("/h2-console/**", "/api/**");
+                .and().csrf().ignoringAntMatchers("/h2-console/**", "/api/**")
+                .and().rememberMe()
+                .key("sfg-key")
+                .userDetailsService(userDetailsService);;
 
         //h2 console config
         http.headers().frameOptions().sameOrigin();
